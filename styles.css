@@ -1,0 +1,89 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #eee;
+  color: #111;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* create some variables */
+:root {
+  --marquee-width:80vw;
+  --marquee-height:20vh;
+  --marquee-elements-displayed:5;
+  /* total width/number of elements */
+  --marquee-element-width:calc(var(--marquee-width) / var(--marquee-elements-displayed));
+  /* we will add the marquee elements through javascript  */
+  --marquee-animation-duration:calc(var(--marquee-elements)*3s);
+  /* we can also add it through JS */
+  --marquee-elements:5;
+}
+
+.marquee {
+  width: var(--marquee-width);
+  height: var(--marquee-height);
+  background-color: #111;
+  color: #eee;
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee-content {
+  list-style: none;
+  height: 100%;
+  display: flex;
+  animation: scrolling var(--marquee-animation-duration) linear infinite;
+}
+
+@keyframes scrolling {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    /* -1 is for moving to left side */
+    transform: translateX(calc(-1 * var(--marquee-element-width) * var(--marquee-elements)));
+  }
+}
+
+.marquee-content li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--marquee-element-width);
+  max-height: 100%;
+  font-size: 5rem;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* now to add the dark effects on the start and end */
+
+.marquee:before, .marquee:after {
+  position: absolute;
+  top: 0;
+  width: 10rem;
+  height: 100%;
+  content: '';
+  z-index: 1;
+}
+
+.marquee:before {
+  /* dark effect before */
+  left: 0;
+  background: linear-gradient(to right, #111 0%, transparent 100%);
+}
+
+.marquee:after {
+  right: 0;
+  background: linear-gradient(to left, #111 0%, transparent 100%);
+}
+
+/* next add animation */
